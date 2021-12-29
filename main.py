@@ -8,3 +8,11 @@ if __name__ == "__main__":
     user = database.User(None, None, None)
     user.saveid()
     print("user's id is",user.id)
+
+    name = input("What's your name? ")
+    user.setName(name)
+
+    age = int(input("How old are you? "))
+    user.setAge(age)
+
+    user.saveUser()
