@@ -7,18 +7,64 @@ class User:
         self.name = name
         self.age = age
         self.sentences = []                 #Creates a list of sentences the user inputted
-        self.savedID = False                #Starts with no id, name or age saved in the Users database
+        self.savedid = False                #Starts with no id, name or age saved in the Users database
         self.savedName = False
         self.savedAge = False
     
-    def setID(self, id):                    #Sets user's id
+    #Sets user's id
+    def setid(self, id):
         self.id = id
     
-    def setName(self, name):                #Sets user's name
+    #Sets user's name
+    def setName(self, name):
         self.name = name
     
-    def setAge(self, age):                  #Sets user's age
+    #Sets user's age
+    def setAge(self, age):
         self.age = age
+
+    #Saves the id of the user into the Users database. If there are no ids in the table,
+    #the id will be set as 0, otherwise it'll be 1 above current largest id
+    def saveid(self):
+        con = sqlite3.connect('turing_database.db')         #Connects to the database
+        cur = con.cursor()
+        try:                                                #Tries to...
+            cur.execute('SELECT id FROM Users')             #Select all ids from the Users table
+            ids = cur.fetchall()
+            max_id = max(ids)                               #Find the largest id
+            id = max_id[0]+1                                #Set the user's id to 1 above current largest id
+            self.id = id                                    
+        except Exception as e:                              #If there are no ids in the table
+            print("saveid",e)                               #Then print error and set id as 0
+            self.id = 0
+        try:                                                                            #Tries to...
+            cur.execute('INSERT INTO Users VALUES (?, ?, ?)',(self.id, None, None,))    #Insert the user's id into the table
+            con.commit()
+        except Exception as e:                                                          #If the id already exists in the table
+            print("saveid",e)                                                           #Then print error and pass
+        con.close()
+
+    #Gets the id of the user from the Users database using their name or name and age
+    def getid(self):
+        if self.name != None:                                                                                   #If there is a value for user's name then
+            try:                                                                                                #Try to...
+                con = sqlite3.connect('turing_database.db')                                                     #Connect to the database
+                cur = con.cursor()
+                try:                                                                                            #And try to...
+                    cur.execute('SELECT id, name FROM Users WHERE name = ?',(self.name,))                       #Select all the ids and names where name equals user's name
+                    ids = cur.fetchall()
+                    if len(ids) <= 1:                                                                           #If there are other people sharing the user's name
+                        self.id = ids[0][0]                                                                     #Then set as the first
+                    else:                                                                                       #If there are other people sharing the user's name
+                        cur.execute('SELECT * FROM Users WHERE name = ? AND age = ?',(self.name,self.age,))     #Then select one user with matching name and age
+                        ids = cur.fetchone()
+                        self.id = ids[0]                                                                        #Sets id as user's id from the table
+                except Exception as e:                                                                          #If there isn't a name that matches, no age given or no name and age matches
+                    print("getid",e)                                                                            #Then print error
+                con.close()
+            except Exception as e:                                                                              #If the database doesn't exist
+                print("----",e,"----")                                                                          #Then print error
+    
 
 #Creates a database and if there already is one, sends back an error
 def createDatabase():
