@@ -71,7 +71,7 @@ class User:
             try:                                                                                #Try to...
                 con = sqlite3.connect('turing_database.db')                                     #Connect to the database
                 cur = con.cursor()
-                cur.execute('INSERT INTO Users VALUES (?, ?, ?)',(self.id, self.name, None,))   #Insert the user's id and name into the table
+                cur.execute('UPDATE Users SET name = ? WHERE id = ?',(self.name, self.id,))   #Insert the user's id and name into the table
                 con.commit()
                 con.close()
             except Exception as e:                                                              #If it can't
@@ -83,7 +83,7 @@ class User:
             try:                                                                                #Try to...
                 con = sqlite3.connect('turing_database.db')                                     #Connect to the database
                 cur = con.cursor()
-                cur.execute('INSERT INTO Users VALUES (?, ?, ?)',(self.id, None, self.age,))    #Insert the user's id and age into the table
+                cur.execute('UPDATE Users SET age = ? WHERE id = ?',(self.age, self.id,))    #Insert the user's id and age into the table
                 con.commit()
                 con.close()
             except Exception as e:                                                              #If it can't
@@ -95,7 +95,7 @@ class User:
             try:                                                                                #Try to...
                 con = sqlite3.connect('turing_database.db')                                     #Connect to the database
                 cur = con.cursor()
-                cur.execute('INSERT INTO Users VALUES (?, ?, ?)',(self.id, self.name, self.age,))   #Insert the user's id, name and age into the table
+                cur.execute('UPDATE Users SET name = ?, age = ? WHERE id = ?',(self.name, self.age, self.id,))   #Insert the user's id, name and age into the table
                 con.commit()
                 con.close()
             except Exception as e:                                                              #If it can't
