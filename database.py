@@ -64,6 +64,42 @@ class User:
                 con.close()
             except Exception as e:                                                                              #If the database doesn't exist
                 print("----",e,"----")                                                                          #Then print error
+
+    #Saves the name of the user with their corresponding id
+    def saveName(self):
+        if self.id != None and self.name != None:                                               #If there is a value for user id and name then
+            try:                                                                                #Try to...
+                con = sqlite3.connect('turing_database.db')                                     #Connect to the database
+                cur = con.cursor()
+                cur.execute('INSERT INTO Users VALUES (?, ?, ?)',(self.id, self.name, None,))   #Insert the user's id and name into the table
+                con.commit()
+                con.close()
+            except Exception as e:                                                              #If it can't
+                print("saveName",e)                                                             #Then print error
+    
+    #Saves the age of the user with their corresponding id
+    def saveAge(self):
+        if self.id != None and self.age != None:                                               #If there is a value for user id and age then
+            try:                                                                                #Try to...
+                con = sqlite3.connect('turing_database.db')                                     #Connect to the database
+                cur = con.cursor()
+                cur.execute('INSERT INTO Users VALUES (?, ?, ?)',(self.id, None, self.age,))   #Insert the user's id and age into the table
+                con.commit()
+                con.close()
+            except Exception as e:                                                              #If it can't
+                print("saveAge",e)                                                             #Then print error
+
+    #Saves the name and age of the user with their corresponding id
+    def saveUser(self):
+        if self.id != None and self.name != None and self.age != None:                                               #If there is a value for user id, name and age then
+            try:                                                                                #Try to...
+                con = sqlite3.connect('turing_database.db')                                     #Connect to the database
+                cur = con.cursor()
+                cur.execute('INSERT INTO Users VALUES (?, ?, ?)',(self.id, self.name, self.age,))   #Insert the user's id, name and age into the table
+                con.commit()
+                con.close()
+            except Exception as e:                                                              #If it can't
+                print("saveAll",e)                                                             #Then print error
     
 
 #Creates a database and if there already is one, sends back an error
