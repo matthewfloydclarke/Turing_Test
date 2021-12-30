@@ -19,3 +19,6 @@ if __name__ == "__main__":
     user.setAge(age)                                #Sets the input as user's age
     user.saveAge()                                  #Saves age into the table
 
+    inputs = [10, 3, 4]                             #AI test inputs
+    mlp = ai.Structure(inputs, 3, 2, 2)             #Test instance
+    print(mlp.aiNum)                                #Print AI number
