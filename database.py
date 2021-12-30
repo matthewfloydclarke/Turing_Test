@@ -116,24 +116,24 @@ class User:
 
     #Saves the sentences inputted by the user into the Sentences table
     def saveSentence(self, sentence):
-        try:
-            if self.id != None:
-                con = sqlite3.connect('turing_database.db')
+        if self.id != None:                                                                     #If there is a value for id then
+            try:                                                                                #Tries to...
+                con = sqlite3.connect('turing_database.db')                                     #Connect to the database
                 cur = con.cursor()
-                if len(self.sentences) > 0:
-                    for i in self.sentences:
-                        cur.execute('INSERT INTO Sentences VALUES (?, ?)',(self.id, i,))
+                if len(self.sentences) > 0:                                                     #If there are any values in the sentences list
+                    for i in self.sentences:                                                    #Loop through each item in the list
+                        cur.execute('INSERT INTO Sentences VALUES (?, ?)',(self.id, i,))        #And add it into the table with the user's id
                         con.commit()
-                    self.sentences.clear()    
+                    self.sentences.clear()                                                      #Clear the list
                 else:
-                    cur.execute('INSERT INTO Sentences VALUES (?, ?)',(self.id, sentence,))
+                    cur.execute('INSERT INTO Sentences VALUES (?, ?)',(self.id, sentence,))     #If there is nothing in the list, add it straight into the table
                     con.commit()
                     con.close()
-            else:
-                self.sentences.append(sentence)
-        except Exception as e:
-            print("saveSentence",e)
-    
+            except Exception as e:                                                              #If there is an error
+                print("saveSentence",e)                                                         #Then print the error
+        else:
+            self.sentences.append(sentence)                                                     #If there is no id, add inputs into sentences list
+
 
 #Creates a database and if there already is one, sends back an error
 def createDatabase():
