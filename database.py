@@ -65,6 +65,19 @@ class User:
             except Exception as e:                                                                              #If the database doesn't exist
                 print("----",e,"----")                                                                          #Then print error
 
+    #Gets all the information of the user
+    def getUser(self):
+        if self.id != None:                                                 #If there is a value for id then
+            try:                                                            #Tries to...
+                con = sqlite3.connect("turing_database.db")                 #Connect to the database
+                cur = con.cursor()
+                cur.execute('SELECT * FROM Users WHERE id = ?',(self.id,))  #Selects all the information about the user
+                data= cur.fetchall()
+                con.close()
+                return data                                                 #Returns it to the user
+            except Exception as e:                                          #If there is an error
+                print(e)                                                    #Then print the error
+
     #Saves the name of the user with their corresponding id
     def saveName(self):
         if self.id != None and self.name != None:                                               #If there is a value for user id and name then
@@ -100,6 +113,26 @@ class User:
                 con.close()
             except Exception as e:                                                              #If it can't
                 print("saveAll",e)                                                              #Then print error
+
+    #Saves the sentences inputted by the user into the Sentences table
+    def saveSentence(self, sentence):
+        try:
+            if self.id != None:
+                con = sqlite3.connect('turing_database.db')
+                cur = con.cursor()
+                if len(self.sentences) > 0:
+                    for i in self.sentences:
+                        cur.execute('INSERT INTO Sentences VALUES (?, ?)',(self.id, i,))
+                        con.commit()
+                    self.sentences.clear()    
+                else:
+                    cur.execute('INSERT INTO Sentences VALUES (?, ?)',(self.id, sentence,))
+                    con.commit()
+                    con.close()
+            else:
+                self.sentences.append(sentence)
+        except Exception as e:
+            print("saveSentence",e)
     
 
 #Creates a database and if there already is one, sends back an error
