@@ -142,6 +142,7 @@ def createDatabase():
         cur = con.cursor()
         cur.execute('CREATE TABLE Users (id INT PRIMARY KEY, name TEXT, age INT)')                  #Create a Users table which includes the user's information
         cur.execute('CREATE TABLE Sentences (id INT, sentence TEXT, PRIMARY KEY (id, sentence))')   #Create a Sentences table which store the sentences inputted by a user
+        cur.execute('CREATE TABLE AIs (id INT PRIMARY KEY, inputs TEXT, weights TEXT, numLayers INT, outputs TEXT)')    #Creates an AIs table which stores the values to make that AI
         con.commit()
         con.close() 
     except Exception as e:                                                                          #Otherwise, prints error
