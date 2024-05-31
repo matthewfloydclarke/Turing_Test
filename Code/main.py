@@ -5,7 +5,7 @@ if __name__ == "__main__":
     print("Hello World!")
     database.createDatabase()                       #Creates the database in database.py
 
-    user = database.User(None, None, None)          #Initiates an instance of User from database.py
+    user = database.User()                          #Initiates an instance of User from database.py
     user.saveid()                                   #Saves the id into the Users table
     print("User's id is",user.id)
 

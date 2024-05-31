@@ -2,7 +2,7 @@ import nlt
 
 #Prints the first message of the chatbot
 def initialMessage():
-    print("-> ",end="")
+    print("-> ", end="")
     print("So you must be...")
     answer = input("-> ")
     return answer

@@ -2,7 +2,7 @@ import sqlite3
 
 #The class User saves an individual's id, name and age as identifiers for searching in the database
 class User:
-    def __init__(self, id, name, age):
+    def __init__(self, id=None, name=None, age=None):
         self.id = id                        #Sets id, name and age as attributes of instance
         self.name = name
         self.age = age
@@ -138,7 +138,7 @@ class User:
 #Creates a database and if there already is one, sends back an error
 def createDatabase():
     try:                                                                                            #Tries to...
-        con = sqlite3.connect("turing_database.db")                                                 #Connect to the database
+        con = sqlite3.connect("./turing_database.db")                                                 #Connect to the database
         cur = con.cursor()
         cur.execute('CREATE TABLE Users (id INT PRIMARY KEY, name TEXT, age INT)')                  #Create a Users table which includes the user's information
         cur.execute('CREATE TABLE Sentences (id INT, sentence TEXT, PRIMARY KEY (id, sentence))')   #Create a Sentences table which store the sentences inputted by a user
