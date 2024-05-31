@@ -17,3 +17,7 @@ class Structure:
     #Initialises the weights for the layers
     def Initialise(self):
         weights = []                        #List of weights
+
+
+###
+# Will use Machine Learning techniques used in dissertation
